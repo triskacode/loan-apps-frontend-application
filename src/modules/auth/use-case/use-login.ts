@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { useAccessToken } from "src/common/helpers/auth.helper";
 import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
-import { AuthRepository } from "../repository/auth.repository";
+import { AuthRepository } from "../repositories/auth.repository";
 
 export const useLogin = () => {
   const router = useRouter();

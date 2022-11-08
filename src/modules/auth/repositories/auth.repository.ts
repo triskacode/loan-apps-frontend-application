@@ -1,9 +1,7 @@
-import { HttpUtil } from "src/common/utils";
+import { AuthUtil, HttpUtil } from "src/common/utils";
 import { appConfig } from "src/config/app.config";
-import { User } from "src/domain/user";
 import { GetMeResponseDto } from "../dto/get-me.dto";
 import { LoginDto, LoginResponseDto } from "../dto/login.dto";
-import { AuthUtil } from "../../../common/utils/auth.util";
 
 export class AuthRepository {
   static async getMe(token?: string): Promise<GetMeResponseDto> {

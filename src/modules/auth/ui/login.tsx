@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Container } from "./partials/container";
-import { useRouter } from "next/router";
 import { useLogin } from "../use-case/use-login";
 import { LoginDto } from "../dto/login.dto";
 import { HttpErrorResponse } from "src/common/types/http-response.type";

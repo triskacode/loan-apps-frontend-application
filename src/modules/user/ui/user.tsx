@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Table } from "src/common/ui/table";
+import { useAllUser } from "../use-case/use-all-user";
 import { Container } from "./partials/container";
 import { DropdownAction } from "./partials/dropdown-action";
 
 interface UserProps {}
 
 export const User: React.FC<UserProps> = () => {
+  const { data } = useAllUser();
+
   return (
     <Container>
       <div>
@@ -28,24 +31,25 @@ export const User: React.FC<UserProps> = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="text-center">1</td>
-              <td>triska@mail.com</td>
-              <td className="text-center">manager</td>
-              <td className="text-center">active</td>
-              <td className="text-center">
-                <DropdownAction />
-              </td>
-            </tr>
-            <tr>
-              <td className="text-center">2</td>
-              <td>triska@mail.com</td>
-              <td className="text-center">manager</td>
-              <td className="text-center">active</td>
-              <td className="text-center">
-                <DropdownAction />
-              </td>
-            </tr>
+            {data && data.data.length > 0 ? (
+              data.data.map((user, i) => (
+                <tr key={i}>
+                  <td className="text-center">{++i}</td>
+                  <td>{user.email}</td>
+                  <td className="text-center">{user.role}</td>
+                  <td className="text-center">{user.state}</td>
+                  <td className="text-center">
+                    <DropdownAction />
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td className="text-center col-span-5 text-slate-400">
+                  User empty
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </div>

@@ -80,7 +80,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         window.removeEventListener("scroll", setDropdownPosition);
       };
     }
-  });
+  }, [setDropdownPosition]);
 
   return (
     <div {...defaultProps}>
