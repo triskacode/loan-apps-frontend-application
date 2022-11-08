@@ -1,9 +1,9 @@
 import { GetServerSideProps, NextPage } from "next";
 import { withAuthRoute } from "src/common/utils/route.util";
-import { Dashboard } from "src/modules/dashboard";
+import { User } from "src/modules/user";
 
 const Page: NextPage = () => {
-  return <Dashboard />;
+  return <User />;
 };
 
 export const getServerSideProps: GetServerSideProps = withAuthRoute(

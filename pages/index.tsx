@@ -1,26 +1,17 @@
 import { GetServerSideProps, NextPage } from "next";
-import { AuthUtil } from "src/common/utils";
+import { onlyWithoutAuthRoute } from "src/common/utils/route.util";
 import { Login } from "src/modules/auth";
 
 const Page: NextPage = () => {
   return <Login />;
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const accessToken = AuthUtil.getAccessToken(ctx);
-
-  if (accessToken) {
+export const getServerSideProps: GetServerSideProps = onlyWithoutAuthRoute(
+  async (ctx) => {
     return {
-      redirect: {
-        destination: "/dashboard",
-        permanent: false,
-      },
+      props: {},
     };
   }
-
-  return {
-    props: {},
-  };
-};
+);
 
 export default Page;
