@@ -12,10 +12,10 @@ export const User: React.FC<UserProps> = () => {
   return (
     <Container>
       <div>
-        <div className="py-5">
+        <div className="py-4">
           <div className="flex justify-between">
             <div>
-              <h1 className="text-2xl font-medium">Users</h1>
+              <h1 className="text-2xl font-medium">All users</h1>
             </div>
           </div>
           <hr className="w-full border-slate-400/50 mt-3" />

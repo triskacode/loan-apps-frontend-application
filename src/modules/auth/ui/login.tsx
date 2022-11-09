@@ -6,6 +6,7 @@ import { HttpErrorResponse } from "src/common/types/http-response.type";
 import { Alert } from "src/common/ui/alert";
 import { Input } from "src/common/ui/input";
 import { Button } from "src/common/ui/button";
+import { toast } from "react-toastify";
 
 interface LoginProps {}
 
@@ -49,12 +50,19 @@ export const Login: React.FC<LoginProps> = () => {
     }
   }, []);
 
+  const handleSuccess = useCallback(() => {
+    toast("Whooala, welcome back...", {
+      icon: () => <span className="text-lg">🎉</span>,
+    });
+  }, []);
+
   const handleHideError = useCallback(() => {
     setErrors(null);
   }, []);
 
   useEffect(() => {
     if (requestState.isError) handleError(requestState.error);
+    else if (requestState.isSuccess) handleSuccess();
     else handleHideError();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +72,7 @@ export const Login: React.FC<LoginProps> = () => {
     <Container>
       <div className="w-full max-w-md px-5">
         <div className="mb-[50px] flex flex-col items-center">
-          <h1 className="text-4xl text-slate-700 font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+          <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
             Pinjaman
           </h1>
           <h2 className="mt-1 text-2xl">Sign in to your account</h2>

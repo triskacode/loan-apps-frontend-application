@@ -5,12 +5,14 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-  }
-
   html {
     @apply text-slate-800;
     font-family: "Inter", sans-serif;
     scroll-behavior: smooth;
   }
+}
+
+* {
+  --toastify-font-family: "Inter", sans-serif;
+  --toastify-color-progress-light: linear-gradient(to right, #ec4899, #8b5cf6);
 }

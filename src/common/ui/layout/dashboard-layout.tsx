@@ -1,6 +1,7 @@
 import Link from "next/link";
-import React from "react";
+import React, { useCallback } from "react";
 import { IoMdPower } from "react-icons/io";
+import { toast } from "react-toastify";
 import { useLogout } from "src/modules/auth/use-case/use-logout";
 import { Button } from "../button";
 import { Copyright } from "../copyright";
@@ -13,7 +14,11 @@ interface DashboardLayoutProps {
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
 }) => {
-  const { doLogout } = useLogout();
+  const handleSuccess = useCallback(() => {
+    toast("See you...", { icon: () => <span className="text-lg">👋</span> });
+  }, []);
+
+  const { doLogout } = useLogout(handleSuccess);
 
   return (
     <BaseLayout>
