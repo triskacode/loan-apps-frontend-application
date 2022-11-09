@@ -7,6 +7,7 @@ export const appConfig = {
     cookieName: "X-Access-Token",
   },
   cache: {
+    AUTH_ME: "auth-me",
     USER_RESOURCE: "user-resource",
   },
 };
