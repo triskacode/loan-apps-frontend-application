@@ -45,14 +45,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           </nav>
         </div>
         <div>
-          <Button className="py-2" onClick={doLogout}>
+          <Button className="py-1.5" onClick={doLogout}>
             <IoMdPower className="inline text-xl md:mr-3" />
             <span className="hidden md:inline">Logout</span>
           </Button>
         </div>
       </header>
       <main className="w-full max-w-[1020px] p-5 mx-auto">{children}</main>
-      <footer className="w-full px-5 pt-10">
+      <footer className="w-full p-5 pt-10">
         <Copyright />
       </footer>
     </BaseLayout>

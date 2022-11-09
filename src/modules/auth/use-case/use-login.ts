@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { useAccessToken } from "src/common/helpers/auth.helper";
 import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
+import { AuthUtil } from "src/common/utils";
 import { AuthRepository } from "../repositories/auth.repository";
 
 export const useLogin = () => {
@@ -14,19 +14,15 @@ export const useLogin = () => {
     [router.query.next]
   );
 
-  const { storeAccessToken } = useAccessToken();
   const { httpExceptionsHandler } = useExceptionsHandler();
-  const { mutate: doLogin, ...requestState } = useMutation(
-    AuthRepository.login,
-    {
-      onError: httpExceptionsHandler,
-      onSuccess: (data) => {
-        storeAccessToken(data.data.accessToken);
-
-        router.push(redirectAfterLogin);
-      },
-    }
-  );
+  const { mutate: doLogin, ...requestState } = useMutation({
+    mutationFn: AuthRepository.login,
+    onError: httpExceptionsHandler,
+    onSuccess: (data) => {
+      AuthUtil.storeAccessToken(data.data.accessToken);
+      router.push(redirectAfterLogin);
+    },
+  });
 
   return {
     doLogin,

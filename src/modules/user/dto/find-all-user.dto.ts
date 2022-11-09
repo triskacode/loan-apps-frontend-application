@@ -3,4 +3,4 @@ import { User } from "src/domain/user";
 
 interface Data extends User {}
 
-export interface FindAllDto extends HttpResponse<Data[]> {}
+export interface FindAllUserResponseDto extends HttpResponse<Data[]> {}

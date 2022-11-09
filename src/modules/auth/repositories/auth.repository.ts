@@ -19,11 +19,11 @@ export class AuthRepository {
     return response;
   }
 
-  static async login(loginDto: LoginDto): Promise<LoginResponseDto> {
+  static async login(dto: LoginDto): Promise<LoginResponseDto> {
     const response: LoginResponseDto = await HttpUtil.post(
       `${appConfig.service.auth}/auth/login`,
       {
-        data: loginDto,
+        data: dto,
         headers: {
           "Content-Type": "application/json",
         },

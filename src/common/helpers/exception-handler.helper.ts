@@ -1,25 +1,23 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { HttpErrorResponse } from "../types/http-response.type";
-import { useAccessToken } from "./auth.helper";
+import { AuthUtil } from "../utils";
 
 type THttpExceptionsHandler = (error: HttpErrorResponse) => void;
 type TAppExceptionsHandler = (error: Error, ctx?: string) => void;
 
 export const useExceptionsHandler = () => {
   const router = useRouter();
-  const { destroyAccessToken } = useAccessToken();
 
   const httpExceptionsHandler: THttpExceptionsHandler = useCallback(
     (error) => {
-      console.log(error);
-
       if (error?.code === 401) {
-        destroyAccessToken();
+        AuthUtil.destroyAccessToken();
+
         router.push("/");
       }
     },
-    [destroyAccessToken, router]
+    [router]
   );
 
   const appExceptionsHandler: TAppExceptionsHandler = useCallback(

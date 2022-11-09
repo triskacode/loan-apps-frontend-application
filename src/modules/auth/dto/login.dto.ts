@@ -5,8 +5,8 @@ export interface LoginDto {
   password: string;
 }
 
-interface LoginResponse {
+interface Data {
   accessToken: string;
 }
 
-export interface LoginResponseDto extends HttpResponse<LoginResponse> {}
+export interface LoginResponseDto extends HttpResponse<Data> {}

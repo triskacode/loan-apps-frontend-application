@@ -7,6 +7,6 @@ export interface HttpResponse<Data = any> {
 export interface HttpErrorResponse {
   code: number;
   message: string;
-  errors: string | string[] | null;
+  errors: string | Record<string, string> | null;
   data: null;
 }

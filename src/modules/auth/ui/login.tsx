@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Container } from "./partials/container";
 import { useLogin } from "../use-case/use-login";
 import { LoginDto } from "../dto/login.dto";
@@ -13,10 +13,14 @@ interface LoginProps {}
 export const Login: React.FC<LoginProps> = () => {
   const { doLogin, requestState } = useLogin();
 
-  const [dto, setDto] = useState<LoginDto>({
-    email: "",
-    password: "",
-  });
+  const initialDto: LoginDto = useMemo(
+    () => ({
+      email: "",
+      password: "",
+    }),
+    []
+  );
+  const [dto, setDto] = useState<LoginDto>(initialDto);
 
   const [errors, setErrors] = useState<string[] | null>(null);
 
@@ -41,7 +45,7 @@ export const Login: React.FC<LoginProps> = () => {
 
   const handleError = useCallback((err: HttpErrorResponse) => {
     if (err.code !== 500 && err.errors) {
-      if (Array.isArray(err.errors)) setErrors(err.errors);
+      if (typeof err.errors === "object") setErrors(Object.values(err.errors));
       else setErrors([err.errors]);
     } else if (err.code !== 500 && err.message) {
       setErrors([err.message]);
@@ -51,10 +55,12 @@ export const Login: React.FC<LoginProps> = () => {
   }, []);
 
   const handleSuccess = useCallback(() => {
+    setDto(initialDto);
+
     toast("Whooala, welcome back...", {
       icon: () => <span className="text-lg">🎉</span>,
     });
-  }, []);
+  }, [initialDto]);
 
   const handleHideError = useCallback(() => {
     setErrors(null);
@@ -91,6 +97,7 @@ export const Login: React.FC<LoginProps> = () => {
               name="email"
               placeholder="Your email"
               autoComplete="email"
+              value={dto.email}
               required={true}
               onChange={handleChangeInput}
             />
@@ -98,7 +105,8 @@ export const Login: React.FC<LoginProps> = () => {
               type="password"
               name="password"
               placeholder="Your password"
-              autoComplete="new-password"
+              autoComplete="current-password"
+              value={dto.password}
               required={true}
               onChange={handleChangeInput}
             />

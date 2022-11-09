@@ -8,5 +8,6 @@ export const appConfig = {
   },
   cache: {
     USER_FIND_ALL: "user-find-all",
+    USER_FIND_BY_ID: "user-find-by-id",
   },
 };
