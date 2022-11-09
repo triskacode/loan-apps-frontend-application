@@ -8,7 +8,7 @@ export const useUserById = (id: number) => {
   const { httpExceptionsHandler } = useExceptionsHandler();
 
   const requestQuery = useQuery({
-    queryKey: [appConfig.cache.USER_FIND_BY_ID, id],
+    queryKey: [appConfig.cache.USER_RESOURCE, { id }],
     queryFn: () => UserRepository.findById(id),
     onError: httpExceptionsHandler,
     select: (resp): User => resp.data,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
-import { HttpErrorResponse } from "src/common/types/http-response.type";
+import { HttpErrorResponse, UserState } from "src/common/types";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
 import { Table } from "src/common/ui/table";
@@ -16,10 +16,10 @@ export const User: React.FC<UserProps> = () => {
   const [errors, setErrors] = useState<string[] | null>(null);
 
   const handleError = useCallback((err: HttpErrorResponse) => {
-    if (err.code !== 500 && err.errors) {
+    if (+err.code < 500 && err.errors) {
       if (typeof err.errors === "object") setErrors(Object.values(err.errors));
       else setErrors([err.errors]);
-    } else if (err.code !== 500 && err.message) {
+    } else if (+err.code < 500 && err.message) {
       setErrors([err.message]);
     } else {
       setErrors(["Whooops! Something went wrong"]);
@@ -81,7 +81,10 @@ export const User: React.FC<UserProps> = () => {
                   <td className="text-center">{user.role}</td>
                   <td className="text-center">{user.state}</td>
                   <td className="text-center">
-                    <DropdownAction />
+                    <DropdownAction
+                      userId={user.id}
+                      deleted={user.state === UserState.DELETED}
+                    />
                   </td>
                 </tr>
               ))

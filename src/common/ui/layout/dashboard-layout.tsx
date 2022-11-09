@@ -15,7 +15,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
 }) => {
   const handleSuccess = useCallback(() => {
-    toast("See you...", { icon: () => <span className="text-lg">👋</span> });
+    toast("See you", { icon: () => <span className="text-lg mb-0.5">👋</span> });
   }, []);
 
   const { doLogout } = useLogout(handleSuccess);

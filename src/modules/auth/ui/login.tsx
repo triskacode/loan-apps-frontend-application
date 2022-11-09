@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Container } from "./partials/container";
 import { useLogin } from "../use-case/use-login";
 import { LoginDto } from "../dto/login.dto";
-import { HttpErrorResponse } from "src/common/types/http-response.type";
+import { HttpErrorResponse } from "src/common/types";
 import { Alert } from "src/common/ui/alert";
 import { Input } from "src/common/ui/input";
 import { Button } from "src/common/ui/button";
@@ -44,10 +44,10 @@ export const Login: React.FC<LoginProps> = () => {
   );
 
   const handleError = useCallback((err: HttpErrorResponse) => {
-    if (err.code !== 500 && err.errors) {
+    if (+err.code < 500 && err.errors) {
       if (typeof err.errors === "object") setErrors(Object.values(err.errors));
       else setErrors([err.errors]);
-    } else if (err.code !== 500 && err.message) {
+    } else if (+err.code < 500 && err.message) {
       setErrors([err.message]);
     } else {
       setErrors(["Whooops! Something went wrong"]);
@@ -57,8 +57,8 @@ export const Login: React.FC<LoginProps> = () => {
   const handleSuccess = useCallback(() => {
     setDto(initialDto);
 
-    toast("Whooala, welcome back...", {
-      icon: () => <span className="text-lg">🎉</span>,
+    toast("Whooala, welcome back", {
+      icon: () => <span className="text-lg mb-0.5">🎉</span>,
     });
   }, [initialDto]);
 

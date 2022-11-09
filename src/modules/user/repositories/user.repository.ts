@@ -1,8 +1,9 @@
 import { AuthUtil, HttpUtil } from "src/common/utils";
 import { appConfig } from "src/config/app.config";
-import { CreateUserDto, CreateUserResponseDto } from "../dto/create-user";
+import { CreateUserDto, CreateUserResponseDto } from "../dto/create-user.dto";
 import { FindAllUserResponseDto } from "../dto/find-all-user.dto";
 import { FindByIdUserResponseDto } from "../dto/find-by-id-user.dto";
+import { UpdateUserDto, UpdateUserResponseDto } from "../dto/update-user.dto";
 
 export class UserRepository {
   static async findAll(token?: string): Promise<FindAllUserResponseDto> {
@@ -48,6 +49,122 @@ export class UserRepository {
       `${appConfig.service.user}/user`,
       {
         data: dto,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response;
+  }
+
+  static async update(
+    id: number,
+    dto: UpdateUserDto,
+    token?: string
+  ): Promise<UpdateUserResponseDto> {
+    const accessToken = token ?? AuthUtil.getAccessToken();
+
+    const response: UpdateUserResponseDto = await HttpUtil.patch(
+      `${appConfig.service.user}/user/${id}`,
+      {
+        data: dto,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response;
+  }
+
+  static async activate(
+    id: number,
+    token?: string
+  ): Promise<UpdateUserResponseDto> {
+    const accessToken = token ?? AuthUtil.getAccessToken();
+
+    const response: UpdateUserResponseDto = await HttpUtil.patch(
+      `${appConfig.service.user}/user/${id}?cmd=activate`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response;
+  }
+
+  static async suspend(
+    id: number,
+    token?: string
+  ): Promise<UpdateUserResponseDto> {
+    const accessToken = token ?? AuthUtil.getAccessToken();
+
+    const response: UpdateUserResponseDto = await HttpUtil.patch(
+      `${appConfig.service.user}/user/${id}?cmd=suspend`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response;
+  }
+
+  static async softDelete(
+    id: number,
+    token?: string
+  ): Promise<UpdateUserResponseDto> {
+    const accessToken = token ?? AuthUtil.getAccessToken();
+
+    const response: UpdateUserResponseDto = await HttpUtil.patch(
+      `${appConfig.service.user}/user/${id}?cmd=soft-delete`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response;
+  }
+
+  static async restore(
+    id: number,
+    token?: string
+  ): Promise<UpdateUserResponseDto> {
+    const accessToken = token ?? AuthUtil.getAccessToken();
+
+    const response: UpdateUserResponseDto = await HttpUtil.patch(
+      `${appConfig.service.user}/user/${id}?cmd=restore`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response;
+  }
+
+  static async delete(
+    id: number,
+    token?: string
+  ): Promise<UpdateUserResponseDto> {
+    const accessToken = token ?? AuthUtil.getAccessToken();
+
+    const response: UpdateUserResponseDto = await HttpUtil.delete(
+      `${appConfig.service.user}/user/${id}`,
+      {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",

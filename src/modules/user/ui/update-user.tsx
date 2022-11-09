@@ -1,31 +1,38 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { toast } from "react-toastify";
-import { UserRole } from "src/common/types";
-import { HttpErrorResponse } from "src/common/types";
+import { HttpErrorResponse, UserRole } from "src/common/types";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
 import { Input } from "src/common/ui/input";
 import { Select } from "src/common/ui/select";
-import { CreateUserDto } from "../dto/create-user.dto";
-import { useCreateUser } from "../use-case/use-create-user";
+import { UpdateUserDto } from "../dto/update-user.dto";
+import { useUpdateUser } from "../use-case/use-update-user";
+import { useUserById } from "../use-case/use-user-by-id";
 import { Container } from "./partials/container";
 
-interface CreateUserProps {}
+interface UpdateUserProps {}
 
-export const CreateUser: React.FC<CreateUserProps> = () => {
-  const { doCreateUser, requestState } = useCreateUser();
+export const UpdateUser: React.FC<UpdateUserProps> = () => {
+  const router = useRouter();
+  const id = router.query.id as string;
 
-  const initialDto: CreateUserDto = useMemo(
-    () => ({
-      email: "",
-      password: "",
-      role: UserRole.USER,
-    }),
-    []
+  const { data: user, ...userByIdRequestState } = useUserById(+id);
+  const { doUpdateUser, requestState: updateUserRequestState } = useUpdateUser(
+    +id
   );
-  const [dto, setDto] = useState<CreateUserDto>(initialDto);
+
+  const initialDto: UpdateUserDto = useMemo(
+    () => ({
+      email: user?.email,
+      password: "",
+      role: user?.role,
+    }),
+    [user?.email, user?.role]
+  );
+  const [dto, setDto] = useState<UpdateUserDto>(initialDto);
 
   const [errors, setErrors] = useState<string[] | null>(null);
 
@@ -43,9 +50,9 @@ export const CreateUser: React.FC<CreateUserProps> = () => {
     (ev: React.FormEvent) => {
       ev.preventDefault();
 
-      doCreateUser(dto);
+      doUpdateUser(dto);
     },
-    [doCreateUser, dto]
+    [doUpdateUser, dto]
   );
 
   const handleError = useCallback((err: HttpErrorResponse) => {
@@ -60,24 +67,27 @@ export const CreateUser: React.FC<CreateUserProps> = () => {
   }, []);
 
   const handleSuccess = useCallback(() => {
-    setDto(initialDto);
-
-    toast("Good, user has been created", {
+    toast("Good, user has been updated", {
       icon: () => <span className="text-lg mb-0.5">👍</span>,
     });
-  }, [initialDto]);
+  }, []);
 
   const handleHideError = useCallback(() => {
     setErrors(null);
   }, []);
 
   useEffect(() => {
-    if (requestState.isError) handleError(requestState.error);
-    else if (requestState.isSuccess) handleSuccess();
+    if (updateUserRequestState.isError)
+      handleError(updateUserRequestState.error);
+    else if (updateUserRequestState.isSuccess) handleSuccess();
     else handleHideError();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requestState.status]);
+  }, [updateUserRequestState.status]);
+
+  useEffect(() => {
+    setDto(initialDto);
+  }, [initialDto]);
 
   return (
     <Container>
@@ -90,7 +100,7 @@ export const CreateUser: React.FC<CreateUserProps> = () => {
                   <BsArrowLeft className="text-2xl" />
                 </Button>
               </Link>
-              <h1 className="text-2xl font-medium">Create users</h1>
+              <h1 className="text-2xl font-medium">Update users</h1>
             </div>
           </div>
           <hr className="w-full border-slate-400/50 mt-2" />
@@ -116,7 +126,6 @@ export const CreateUser: React.FC<CreateUserProps> = () => {
                 placeholder="john@gmail.com"
                 autoComplete="email"
                 value={dto.email}
-                required={true}
                 onChange={handleChangeInput}
               />
             </div>
@@ -135,7 +144,6 @@ export const CreateUser: React.FC<CreateUserProps> = () => {
                 placeholder="***"
                 autoComplete="new-password"
                 value={dto.password}
-                required={true}
                 onChange={handleChangeInput}
               />
             </div>
@@ -148,7 +156,6 @@ export const CreateUser: React.FC<CreateUserProps> = () => {
                 id="input-role"
                 name="role"
                 value={dto.role}
-                required={true}
                 onChange={handleChangeInput}
               >
                 {Object.values(UserRole).map((role, i) => (
@@ -163,9 +170,9 @@ export const CreateUser: React.FC<CreateUserProps> = () => {
             <Button
               className="w-auto py-2 bg-blue-500 text-slate-50 hover:bg-blue-600 disabled:bg-blue-600/50"
               type="submit"
-              disabled={requestState.isLoading}
+              disabled={updateUserRequestState.isLoading}
             >
-              Create
+              Update
             </Button>
           </div>
         </form>

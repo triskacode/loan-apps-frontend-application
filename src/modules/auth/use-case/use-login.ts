@@ -24,8 +24,5 @@ export const useLogin = () => {
     },
   });
 
-  return {
-    doLogin,
-    requestState,
-  };
+  return { doLogin, requestState };
 };

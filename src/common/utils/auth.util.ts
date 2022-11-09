@@ -25,12 +25,18 @@ export class AuthUtil {
     token: string,
     ctx?: Pick<NextPageContext, "res"> | null | undefined
   ) {
-    return nookies.set(ctx ?? null, appConfig.auth.cookieName, token);
+    return nookies.set(ctx ?? null, appConfig.auth.cookieName, token, {
+      maxAge: -1,
+      path: "/",
+      httpOnly: true,
+    });
   }
 
   static destroyAccessToken(
     ctx?: Pick<NextPageContext, "res"> | null | undefined
   ) {
-    return nookies.destroy(ctx ?? null, appConfig.auth.cookieName);
+    return nookies.destroy(ctx ?? null, appConfig.auth.cookieName, {
+      path: "/",
+    });
   }
 }

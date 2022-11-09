@@ -1,15 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
 import { appConfig } from "src/config/app.config";
-import { CreateUserDto } from "../dto/create-user.dto";
 import { UserRepository } from "../repositories/user.repository";
 
-export const useCreateUser = () => {
+export const useRestoreUser = (id: number) => {
   const queryClient = useQueryClient();
   const { httpExceptionsHandler } = useExceptionsHandler();
 
-  const { mutate: doCreateUser, ...requestState } = useMutation({
-    mutationFn: (dto: CreateUserDto) => UserRepository.create(dto),
+  const { mutate: doRestoreUser, ...requestState } = useMutation({
+    mutationFn: () => UserRepository.restore(id),
     onError: httpExceptionsHandler,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -18,5 +17,5 @@ export const useCreateUser = () => {
     },
   });
 
-  return { doCreateUser, requestState };
+  return { doRestoreUser, requestState };
 };

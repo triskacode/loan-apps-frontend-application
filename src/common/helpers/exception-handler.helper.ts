@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
-import { HttpErrorResponse } from "../types/http-response.type";
+import { HttpErrorResponse } from "../types";
 import { AuthUtil } from "../utils";
 
 type THttpExceptionsHandler = (error: HttpErrorResponse) => void;
