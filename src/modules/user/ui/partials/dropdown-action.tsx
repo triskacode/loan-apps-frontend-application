@@ -12,11 +12,19 @@ import { useSuspendUser } from "../../use-case/use-suspend-user";
 interface DropdownActionProps {
   userId: number;
   deleted?: boolean;
+  menu?: (
+    | "update"
+    | "activate"
+    | "suspend"
+    | "delete"
+    | "restore"
+    | "force-delete"
+  )[];
 }
 
 export const DropdownAction: React.FC<DropdownActionProps> = ({
   userId,
-  deleted,
+  menu,
 }) => {
   const { doActivateUser, requestState: activateUserRequestState } =
     useActivateUser(userId);
@@ -94,43 +102,48 @@ export const DropdownAction: React.FC<DropdownActionProps> = ({
   return (
     <Dropdown name="action" position="br">
       <div className="min-w-[150px] w-auto py-1 rounded-md border border-slate-400/50 bg-slate-50 flex flex-col [&>*]:py-1 [&>*]:px-4 [&>*]:text-left hover:[&>*]:bg-slate-200 disabled:[&>*]:text-slate-500">
-        {deleted ? (
-          <>
-            <button
-              onClick={() => doRestoreUser()}
-              disabled={restoreUserRequestState.isLoading}
-            >
-              Restore
-            </button>
-            <button
-              onClick={() => doDeleteUser()}
-              disabled={deleteRequestState.isLoading}
-            >
-              Force delete
-            </button>
-          </>
-        ) : (
-          <>
-            <Link href={`/dashboard/users/${userId}/update`}>Update</Link>
-            <button
-              onClick={() => doActivateUser()}
-              disabled={activateUserRequestState.isLoading}
-            >
-              Activate
-            </button>
-            <button
-              onClick={() => doSuspendUser()}
-              disabled={suspendUserRequestState.isLoading}
-            >
-              Suspend
-            </button>
-            <button
-              onClick={() => doSoftDeleteUser()}
-              disabled={softDeleteUserRequestState.isLoading}
-            >
-              Delete
-            </button>
-          </>
+        {menu && menu.includes("update") && (
+          <Link href={`/dashboard/users/${userId}/update`}>Update</Link>
+        )}
+        {menu && menu.includes("activate") && (
+          <button
+            onClick={() => doActivateUser()}
+            disabled={activateUserRequestState.isLoading}
+          >
+            Activate
+          </button>
+        )}
+        {menu && menu.includes("suspend") && (
+          <button
+            onClick={() => doSuspendUser()}
+            disabled={suspendUserRequestState.isLoading}
+          >
+            Suspend
+          </button>
+        )}
+        {menu && menu.includes("delete") && (
+          <button
+            onClick={() => doSoftDeleteUser()}
+            disabled={softDeleteUserRequestState.isLoading}
+          >
+            Delete
+          </button>
+        )}
+        {menu && menu.includes("restore") && (
+          <button
+            onClick={() => doRestoreUser()}
+            disabled={restoreUserRequestState.isLoading}
+          >
+            Restore
+          </button>
+        )}
+        {menu && menu.includes("force-delete") && (
+          <button
+            onClick={() => doDeleteUser()}
+            disabled={deleteRequestState.isLoading}
+          >
+            Force delete
+          </button>
         )}
       </div>
     </Dropdown>

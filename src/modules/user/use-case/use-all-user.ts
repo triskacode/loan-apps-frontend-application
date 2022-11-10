@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
 import { appConfig } from "src/config/app.config";
 import { User } from "src/domain/user";
-import { FilterFindAllDto } from "../dto/find-all-user.dto";
+import { FilterFindAllUserDto } from "../dto/find-all-user.dto";
 import { UserRepository } from "../repositories/user.repository";
 
-export const useAllUser = (filter?: FilterFindAllDto) => {
+export const useAllUser = (filter?: FilterFindAllUserDto) => {
   const { httpExceptionsHandler } = useExceptionsHandler();
 
   const requestQuery = useQuery({

@@ -5,7 +5,7 @@ import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
 import { Select } from "src/common/ui/select";
 import { Table } from "src/common/ui/table";
-import { FilterFindAllDto } from "../dto/find-all-user.dto";
+import { FilterFindAllUserDto } from "../dto/find-all-user.dto";
 import { useAllUser } from "../use-case/use-all-user";
 import { Container } from "./partials/container";
 import { DropdownAction } from "./partials/dropdown-action";
@@ -13,7 +13,7 @@ import { DropdownAction } from "./partials/dropdown-action";
 interface UserProps {}
 
 export const User: React.FC<UserProps> = () => {
-  const [dto, setDto] = useState<FilterFindAllDto>({});
+  const [dto, setDto] = useState<FilterFindAllUserDto>({});
   const [errors, setErrors] = useState<string[] | null>(null);
 
   const { data, ...requestState } = useAllUser(dto);
@@ -135,7 +135,11 @@ export const User: React.FC<UserProps> = () => {
                   <td className="text-center">
                     <DropdownAction
                       userId={user.id}
-                      deleted={user.state === UserState.DELETED}
+                      menu={
+                        user.state === UserState.DELETED
+                          ? ["restore", "force-delete"]
+                          : ["update", "activate", "suspend", "delete"]
+                      }
                     />
                   </td>
                 </tr>

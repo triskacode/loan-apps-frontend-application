@@ -2,7 +2,9 @@ import Link from "next/link";
 import React, { useCallback } from "react";
 import { IoMdPower } from "react-icons/io";
 import { toast } from "react-toastify";
+import { UserRole } from "src/common/types";
 import { useLogout } from "src/modules/auth/use-case/use-logout";
+import { useMe } from "src/modules/auth/use-case/use-me";
 import { Button } from "../button";
 import { Copyright } from "../copyright";
 import { BaseLayout } from "./base-layout";
@@ -14,8 +16,12 @@ interface DashboardLayoutProps {
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
 }) => {
+  const { data: me } = useMe();
+
   const handleSuccess = useCallback(() => {
-    toast("See you", { icon: () => <span className="text-lg mb-0.5">👋</span> });
+    toast("See you", {
+      icon: () => <span className="text-lg mb-0.5">👋</span>,
+    });
   }, []);
 
   const { doLogout } = useLogout(handleSuccess);
@@ -36,12 +42,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             >
               Dashboard
             </Link>
-            <Link
-              href="/dashboard/users"
-              className="hover:text-indigo-500 transition-all ease-in-out"
-            >
-              Users
-            </Link>
+            {me?.role === UserRole.MANAGER && (
+              <Link
+                href="/dashboard/users"
+                className="hover:text-indigo-500 transition-all ease-in-out"
+              >
+                Users
+              </Link>
+            )}
           </nav>
         </div>
         <div>
