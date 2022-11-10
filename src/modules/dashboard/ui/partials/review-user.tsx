@@ -1,5 +1,4 @@
 import React from "react";
-import { UserState } from "src/common/types";
 import { Table } from "src/common/ui/table";
 import { User } from "src/domain/user";
 import { DropdownAction } from "src/modules/user/ui/partials/dropdown-action";

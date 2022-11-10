@@ -1,5 +1,6 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetServerSideProps, NextPage } from "next";
+import { UserRole } from "src/common/types";
 import { AuthUtil } from "src/common/utils";
 import { withAuthRoute } from "src/common/utils/route.util";
 import { appConfig } from "src/config/app.config";
@@ -17,9 +18,11 @@ export const getServerSideProps: GetServerSideProps = withAuthRoute(
       const queryClient = new QueryClient();
       const accessToken = AuthUtil.getAccessToken(ctx);
 
-      await queryClient.fetchQuery([appConfig.cache.AUTH_ME], () =>
+      const me = await queryClient.fetchQuery([appConfig.cache.AUTH_ME], () =>
         AuthRepository.getMe(accessToken)
       );
+      if (me.data.role !== UserRole.MANAGER) return { notFound: true };
+
       await queryClient.fetchQuery([appConfig.cache.USER_RESOURCE], () =>
         UserRepository.findAll({}, accessToken)
       );

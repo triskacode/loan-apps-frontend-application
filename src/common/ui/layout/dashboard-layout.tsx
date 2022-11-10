@@ -43,12 +43,20 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               Dashboard
             </Link>
             {me?.role === UserRole.MANAGER && (
+              <>
               <Link
                 href="/dashboard/users"
                 className="hover:text-indigo-500 transition-all ease-in-out"
               >
                 Users
               </Link>
+              <Link
+                href="/dashboard/loans"
+                className="hover:text-indigo-500 transition-all ease-in-out"
+              >
+                Loans
+              </Link>
+              </>
             )}
           </nav>
         </div>

@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { HiOutlineEye } from "react-icons/hi";
 import { HttpErrorResponse, UserState } from "src/common/types";
+import { LoanState } from "src/common/types/loan.type";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
+import { useAllLoan } from "src/modules/loan/use-case/use-all-loan";
 import { useAllUser } from "src/modules/user/use-case/use-all-user";
 import { Container } from "./partials/container";
 import { Overview } from "./partials/overview";
@@ -17,6 +19,10 @@ export const Manager: React.FC<ManagerProps> = () => {
 
   const { data: users, ...usersRequestState } = useAllUser({
     state: UserState.CREATED,
+  });
+
+  const { data: loans, ...loansRequestState } = useAllLoan({
+    state: LoanState.PENDING,
   });
 
   const handleError = useCallback((err: HttpErrorResponse) => {
@@ -41,15 +47,22 @@ export const Manager: React.FC<ManagerProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usersRequestState.status]);
 
+  useEffect(() => {
+    if (loansRequestState.isError) handleError(loansRequestState.error);
+    else handleHideError();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loansRequestState.status]);
+
   return (
     <Container>
       <Overview />
 
       <div className="flex gap-x-2 items-center">
         <div className="py-1.5 px-1.5 border-none rounded-full shadow-none bg-slate-200/50 mr-2">
-          <MdOutlineRemoveRedEye className="text-2xl" />
+          <HiOutlineEye className="text-2xl" />
         </div>
-        <h1 className="text-xl">Pending review</h1>
+        <h1 className="text-xl">Required review</h1>
       </div>
       <hr className="w-full border-slate-400/50 mt-3" />
       <div className="grid grid-cols-[200px_1fr] gap-x-3 overflow-x-hidden mt-5">
@@ -66,10 +79,15 @@ export const Manager: React.FC<ManagerProps> = () => {
             )}
           </Button>
           <Button
-            className="border-0 py-1 shadow-none text-left"
+            className="border-0 py-1 shadow-none flex items-center justify-between"
             onClick={() => setSelectedReview("loan")}
           >
             <span>Loans</span>
+            {loans && loans.length > 0 && (
+              <span className="block px-1.5 text-sm text-white bg-red-500 rounded-full">
+                {loans.length}
+              </span>
+            )}
           </Button>
         </div>
         <div className="overflow-x-auto">
@@ -84,7 +102,7 @@ export const Manager: React.FC<ManagerProps> = () => {
           {selectedReview === "user" ? (
             <ReviewUser users={users} />
           ) : (
-            <ReviewLoan />
+            <ReviewLoan loans={loans} />
           )}
         </div>
       </div>

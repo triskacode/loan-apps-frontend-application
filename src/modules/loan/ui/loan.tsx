@@ -1,22 +1,22 @@
-import Link from "next/link";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { HttpErrorResponse, UserRole, UserState } from "src/common/types";
+import React, { useCallback, useEffect, useState } from "react";
+import { HttpErrorResponse } from "src/common/types";
+import { LoanState } from "src/common/types/loan.type";
 import { Alert } from "src/common/ui/alert";
-import { Button } from "src/common/ui/button";
 import { Select } from "src/common/ui/select";
 import { Table } from "src/common/ui/table";
-import { FilterFindAllUserDto } from "../dto/find-all-user.dto";
-import { useAllUser } from "../use-case/use-all-user";
+import { currencyIdr } from "src/common/utils";
+import { FilterFindAllLoanDto } from "../dto/find-all-loan.dto";
+import { useAllLoan } from "../use-case/use-all-loan";
 import { Container } from "./partials/container";
 import { DropdownAction } from "./partials/dropdown-action";
 
-interface UserProps {}
+interface LoanProps {}
 
-export const User: React.FC<UserProps> = () => {
-  const [dto, setDto] = useState<FilterFindAllUserDto>({});
+export const Loan: React.FC<LoanProps> = () => {
+  const [dto, setDto] = useState<FilterFindAllLoanDto>({});
   const [errors, setErrors] = useState<string[] | null>(null);
 
-  const { data, ...requestState } = useAllUser(dto);
+  const { data, ...requestState } = useAllLoan(dto);
 
   const handleChangeInputFilter = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -26,7 +26,7 @@ export const User: React.FC<UserProps> = () => {
       else
         setDto((prev) => {
           const dto = { ...prev };
-          delete dto[name as "role" | "state"];
+          delete dto[name as "state"];
           return dto;
         });
     },
@@ -66,23 +66,9 @@ export const User: React.FC<UserProps> = () => {
       <div className="py-4">
         <div className="flex justify-between">
           <div>
-            <h1 className="text-2xl font-medium">All users</h1>
+            <h1 className="text-2xl font-medium">All loans</h1>
           </div>
           <div className="flex gap-x-2">
-            <Select
-              className="w-1/3 min-w-[125px] py-1 shadow-sm"
-              name="role"
-              value={dto.role}
-              required={true}
-              onChange={handleChangeInputFilter}
-            >
-              <option value="">All role</option>
-              {Object.values(UserRole).map((role, i) => (
-                <option key={i} value={role}>
-                  {role}
-                </option>
-              ))}
-            </Select>
             <Select
               className="w-1/3 min-w-[125px] py-1 shadow-sm"
               name="state"
@@ -91,17 +77,12 @@ export const User: React.FC<UserProps> = () => {
               onChange={handleChangeInputFilter}
             >
               <option value="">All state</option>
-              {Object.values(UserState).map((role, i) => (
+              {Object.values(LoanState).map((role, i) => (
                 <option key={i} value={role}>
                   {role}
                 </option>
               ))}
             </Select>
-            <Link href="/dashboard/users/create">
-              <Button className="py-1 px-3 border-green-600/50 bg-green-500 text-white hover:bg-green-600">
-                Create new
-              </Button>
-            </Link>
           </div>
         </div>
         <hr className="w-full border-slate-400/50 mt-3" />
@@ -117,36 +98,38 @@ export const User: React.FC<UserProps> = () => {
         <thead>
           <tr>
             <th className="w-[50px] text-center">#</th>
-            <th className="w-[350px]">email</th>
-            <th className="w-[100px]">role</th>
+            <th className="w-[350px]">user_id</th>
+            <th className="w-[100px]">amount</th>
             <th className="w-[100px]">state</th>
             <th className="w-[100px]">action</th>
           </tr>
         </thead>
         <tbody>
           {data && data.length > 0 ? (
-            data.map((user, i) => (
+            data.map((loan, i) => (
               <tr key={i}>
                 <td className="text-center">{++i}</td>
-                <td>{user.email}</td>
-                <td className="text-center">{user.role}</td>
-                <td className="text-center">{user.state}</td>
+                <td>{loan.user_id}</td>
                 <td className="text-center">
-                  <DropdownAction
-                    userId={user.id}
-                    menu={
-                      user.state === UserState.DELETED
-                        ? ["restore", "force-delete"]
-                        : ["update", "activate", "suspend", "delete"]
-                    }
-                  />
+                  {currencyIdr.format(loan.amount ?? 0)}
+                </td>
+                <td className="text-center">{loan.state}</td>
+                <td className="text-center">
+                  {loan.state === LoanState.PENDING ? (
+                    <DropdownAction
+                      loanId={loan.id}
+                      menu={["approve", "reject"]}
+                    />
+                  ) : (
+                    "-"
+                  )}
                 </td>
               </tr>
             ))
           ) : (
             <tr>
               <td colSpan={5} className="text-center text-slate-500">
-                User empty
+                Loan empty
               </td>
             </tr>
           )}

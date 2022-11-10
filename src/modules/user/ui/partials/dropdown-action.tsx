@@ -11,8 +11,7 @@ import { useSuspendUser } from "../../use-case/use-suspend-user";
 
 interface DropdownActionProps {
   userId: number;
-  deleted?: boolean;
-  menu?: (
+  menu: (
     | "update"
     | "activate"
     | "suspend"

@@ -5,10 +5,10 @@ import { AuthUtil } from "src/common/utils";
 import { withAuthRoute } from "src/common/utils/route.util";
 import { appConfig } from "src/config/app.config";
 import { AuthRepository } from "src/modules/auth/repositories/auth.repository";
-import { CreateUser } from "src/modules/user";
+import { Loan } from "src/modules/loan";
 
 const Page: NextPage = () => {
-  return <CreateUser />;
+  return <Loan />;
 };
 
 export const getServerSideProps: GetServerSideProps = withAuthRoute(
