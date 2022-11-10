@@ -1,5 +1,5 @@
-import { NextPageContext } from "next";
-import nookies from "nookies";
+import { GetServerSidePropsContext } from "next";
+import { getCookie, setCookie, deleteCookie } from "cookies-next";
 import { appConfig } from "src/config/app.config";
 
 export class AuthUtil {
@@ -7,36 +7,27 @@ export class AuthUtil {
     return `/?next=${encodeURIComponent(currentPath)}`;
   }
 
-  static getAccessToken(
-    ctx?:
-      | Pick<NextPageContext, "req">
-      | {
-          req: Request;
-        }
-      | null
-      | undefined
-  ) {
-    const cookie = nookies.get(ctx ?? null);
-
-    return cookie[appConfig.auth.cookieName];
+  static getAccessToken(ctx?: GetServerSidePropsContext | null) {
+    return getCookie(appConfig.auth.cookieKey, {
+      req: ctx?.req,
+      res: ctx?.res,
+    }) as string;
   }
 
   static storeAccessToken(
     token: string,
-    ctx?: Pick<NextPageContext, "res"> | null | undefined
+    ctx?: GetServerSidePropsContext | null
   ) {
-    return nookies.set(ctx ?? null, appConfig.auth.cookieName, token, {
-      maxAge: -1,
-      path: "/",
-      httpOnly: true,
+    return setCookie(appConfig.auth.cookieKey, token, {
+      req: ctx?.req,
+      res: ctx?.res,
     });
   }
 
-  static destroyAccessToken(
-    ctx?: Pick<NextPageContext, "res"> | null | undefined
-  ) {
-    return nookies.destroy(ctx ?? null, appConfig.auth.cookieName, {
-      path: "/",
+  static destroyAccessToken(ctx?: GetServerSidePropsContext | null) {
+    return deleteCookie(appConfig.auth.cookieKey, {
+      req: ctx?.req,
+      res: ctx?.res,
     });
   }
 }

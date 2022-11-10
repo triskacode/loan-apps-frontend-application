@@ -1,13 +1,16 @@
 export const appConfig = {
   service: {
-    user: "http://103.176.78.124:4000",
-    auth: "http://103.176.78.124:4001",
+    auth: process.env.NEXT_PUBLIC_AUTH_SERVICE_ENDPOINT,
+    user: process.env.NEXT_PUBLIC_USER_SERVICE_ENDPOINT,
   },
   auth: {
-    cookieName: "X-Access-Token",
+    cookieKey: "X-Access-Token",
   },
   cache: {
     AUTH_ME: "auth-me",
     USER_RESOURCE: "user-resource",
+  },
+  payment: {
+    stripeKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   },
 };

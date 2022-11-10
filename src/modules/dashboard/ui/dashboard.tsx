@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { Container } from "./partials/container";
 
 interface DashboardProps {}

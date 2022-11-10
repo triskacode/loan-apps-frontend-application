@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = withAuthRoute(
       const accessToken = AuthUtil.getAccessToken(ctx);
 
       await queryClient.fetchQuery([appConfig.cache.USER_RESOURCE], () =>
-        UserRepository.findAll(accessToken)
+        UserRepository.findAll({}, accessToken)
       );
 
       return {

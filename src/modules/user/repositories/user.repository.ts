@@ -1,17 +1,24 @@
 import { AuthUtil, HttpUtil } from "src/common/utils";
 import { appConfig } from "src/config/app.config";
 import { CreateUserDto, CreateUserResponseDto } from "../dto/create-user.dto";
-import { FindAllUserResponseDto } from "../dto/find-all-user.dto";
+import {
+  FilterFindAllDto,
+  FindAllUserResponseDto,
+} from "../dto/find-all-user.dto";
 import { FindByIdUserResponseDto } from "../dto/find-by-id-user.dto";
 import { UpdateUserDto, UpdateUserResponseDto } from "../dto/update-user.dto";
 
 export class UserRepository {
-  static async findAll(token?: string): Promise<FindAllUserResponseDto> {
+  static async findAll(
+    filter?: FilterFindAllDto,
+    token?: string
+  ): Promise<FindAllUserResponseDto> {
     const accessToken = token ?? AuthUtil.getAccessToken();
 
     const response: FindAllUserResponseDto = await HttpUtil.get(
       `${appConfig.service.user}/user`,
       {
+        params: filter,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -87,7 +94,7 @@ export class UserRepository {
     const accessToken = token ?? AuthUtil.getAccessToken();
 
     const response: UpdateUserResponseDto = await HttpUtil.patch(
-      `${appConfig.service.user}/user/${id}?cmd=activate`,
+      `${appConfig.service.user}/user/${id}?action=activate`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -106,7 +113,7 @@ export class UserRepository {
     const accessToken = token ?? AuthUtil.getAccessToken();
 
     const response: UpdateUserResponseDto = await HttpUtil.patch(
-      `${appConfig.service.user}/user/${id}?cmd=suspend`,
+      `${appConfig.service.user}/user/${id}?action=suspend`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -125,7 +132,7 @@ export class UserRepository {
     const accessToken = token ?? AuthUtil.getAccessToken();
 
     const response: UpdateUserResponseDto = await HttpUtil.patch(
-      `${appConfig.service.user}/user/${id}?cmd=soft-delete`,
+      `${appConfig.service.user}/user/${id}?action=soft-delete`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -144,7 +151,7 @@ export class UserRepository {
     const accessToken = token ?? AuthUtil.getAccessToken();
 
     const response: UpdateUserResponseDto = await HttpUtil.patch(
-      `${appConfig.service.user}/user/${id}?cmd=restore`,
+      `${appConfig.service.user}/user/${id}?action=restore`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
