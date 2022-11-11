@@ -28,9 +28,8 @@ export const getServerSideProps: GetServerSideProps = withAuthRoute(
       );
       if (me.data.role !== UserRole.MANAGER) return { notFound: true };
 
-      await queryClient.fetchQuery(
-        [appConfig.cache.USER_RESOURCE, { id }],
-        () => UserRepository.findById(+id, accessToken)
+      await queryClient.fetchQuery([appConfig.cache.USER_RESOURCE, +id], () =>
+        UserRepository.findById(+id, accessToken)
       );
 
       return {

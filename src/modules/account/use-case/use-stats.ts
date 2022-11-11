@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
 import { appConfig } from "src/config/app.config";
-import { Loan } from "src/domain/loan";
-import { LoanRepository } from "../repositories/loan.repository";
+import { AccountStats } from "src/domain/account";
+import { AccountRepository } from "../repositories/account.repository";
 
-export const useMyLoan = () => {
+export const useStats = () => {
   const { httpExceptionsHandler } = useExceptionsHandler();
 
   const requestQuery = useQuery({
-    queryKey: [appConfig.cache.LOAN_RESOURCE, 'my-loan'],
-    queryFn: () => LoanRepository.findMyLoan(),
+    queryKey: [appConfig.cache.ACCOUNT_RESOURCE, "stats"],
+    queryFn: () => AccountRepository.getStats(),
     onError: httpExceptionsHandler,
-    select: (resp): Loan[] => resp.data,
+    select: (resp): AccountStats => resp.data,
   });
 
   return requestQuery;

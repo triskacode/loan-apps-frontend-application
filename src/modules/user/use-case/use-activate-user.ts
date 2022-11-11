@@ -14,6 +14,9 @@ export const useActivateUser = (id: number) => {
       queryClient.invalidateQueries({
         queryKey: [appConfig.cache.USER_RESOURCE],
       });
+      queryClient.invalidateQueries({
+        queryKey: [appConfig.cache.ACCOUNT_RESOURCE, "stats"],
+      });
     },
   });
 

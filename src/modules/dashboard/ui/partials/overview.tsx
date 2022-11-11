@@ -1,10 +1,14 @@
 import React from "react";
 import { MdBarChart } from "react-icons/md";
 import { BiMoney } from "react-icons/bi";
+import { AccountStats } from "src/domain/account";
+import { currencyIdr } from "src/common/utils";
 
-interface OverviewProps {}
+interface OverviewProps {
+  accountStats?: AccountStats;
+}
 
-export const Overview: React.FC<OverviewProps> = () => {
+export const Overview: React.FC<OverviewProps> = ({ accountStats }) => {
   return (
     <div className="py-4 mb-8">
       <div className="">
@@ -19,7 +23,9 @@ export const Overview: React.FC<OverviewProps> = () => {
       <div className="grid grid-cols-4 gap-x-5 mt-5">
         <div className="col-span-2 flex flex-col items-center rounded-md border boorder-slate-400/50 px-5 py-8">
           <div className="">
-            <h1 className="text-2xl font-semibold">10</h1>
+            <h1 className="text-2xl font-semibold">
+              {accountStats?.count_account ?? 0}
+            </h1>
           </div>
           <div className="flex items-center gap-x-2 mt-2">
             <span className="block w-3 h-3 bg-green-500 rounded-full mt-0.5" />
@@ -28,7 +34,9 @@ export const Overview: React.FC<OverviewProps> = () => {
         </div>
         <div className="col-span-2 flex flex-col items-center rounded-md border boorder-slate-400/50 px-5 py-8">
           <div className="">
-            <h1 className="text-2xl font-semibold">Rp 10.000</h1>
+            <h1 className="text-2xl font-semibold">
+              {currencyIdr.format(accountStats?.loan_balance ?? 0)}
+            </h1>
           </div>
           <div className="flex items-center gap-x-2 mt-2">
             <BiMoney className="text-lg mt-0.5" />

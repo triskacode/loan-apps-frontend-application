@@ -98,7 +98,7 @@ export const Loan: React.FC<LoanProps> = () => {
         <thead>
           <tr>
             <th className="w-[50px] text-center">#</th>
-            <th className="w-[350px]">user_id</th>
+            <th className="w-[350px]">email</th>
             <th className="w-[100px]">amount</th>
             <th className="w-[100px]">state</th>
             <th className="w-[100px]">action</th>
@@ -109,7 +109,7 @@ export const Loan: React.FC<LoanProps> = () => {
             data.map((loan, i) => (
               <tr key={i}>
                 <td className="text-center">{++i}</td>
-                <td>{loan.user_id}</td>
+                <td>{loan.user.email}</td>
                 <td className="text-center">
                   {currencyIdr.format(loan.amount ?? 0)}
                 </td>

@@ -4,6 +4,7 @@ import { HttpErrorResponse, UserState } from "src/common/types";
 import { LoanState } from "src/common/types/loan.type";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
+import { useStats } from "src/modules/account/use-case/use-stats";
 import { useAllLoan } from "src/modules/loan/use-case/use-all-loan";
 import { useAllUser } from "src/modules/user/use-case/use-all-user";
 import { Container } from "./partials/container";
@@ -16,6 +17,8 @@ interface ManagerProps {}
 export const Manager: React.FC<ManagerProps> = () => {
   const [selectedReview, setSelectedReview] = useState<"user" | "loan">("user");
   const [errors, setErrors] = useState<string[] | null>(null);
+
+  const { data: accountStats, ...accountStatsRequestState } = useStats();
 
   const { data: users, ...usersRequestState } = useAllUser({
     state: UserState.CREATED,
@@ -54,9 +57,22 @@ export const Manager: React.FC<ManagerProps> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loansRequestState.status]);
 
+  useEffect(() => {
+    console.log(accountStatsRequestState);
+    if (accountStatsRequestState.isError)
+      handleError(accountStatsRequestState.error);
+    else handleHideError();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accountStatsRequestState.status]);
+
+  useEffect(() => {
+    console.log(accountStats);
+  }, [accountStats]);
+
   return (
     <Container>
-      <Overview />
+      <Overview accountStats={accountStats} />
 
       <div className="flex gap-x-2 items-center">
         <div className="py-1.5 px-1.5 border-none rounded-full shadow-none bg-slate-200/50 mr-2">

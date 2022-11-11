@@ -6,6 +6,7 @@ import { withAuthRoute } from "src/common/utils/route.util";
 import { appConfig } from "src/config/app.config";
 import { AuthRepository } from "src/modules/auth/repositories/auth.repository";
 import { Loan } from "src/modules/loan";
+import { LoanRepository } from "src/modules/loan/repositories/loan.repository";
 
 const Page: NextPage = () => {
   return <Loan />;
@@ -21,6 +22,10 @@ export const getServerSideProps: GetServerSideProps = withAuthRoute(
         AuthRepository.getMe(accessToken)
       );
       if (me.data.role !== UserRole.MANAGER) return { notFound: true };
+
+      await queryClient.fetchQuery([appConfig.cache.LOAN_RESOURCE], () =>
+        LoanRepository.findAll({}, accessToken)
+      );
 
       return {
         props: {

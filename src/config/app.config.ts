@@ -12,6 +12,7 @@ export const appConfig = {
     AUTH_ME: "auth-me",
     USER_RESOURCE: "user-resource",
     LOAN_RESOURCE: "loan-resource",
+    ACCOUNT_RESOURCE: "account-resource",
   },
   payment: {
     stripeKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
