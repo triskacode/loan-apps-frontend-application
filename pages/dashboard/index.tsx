@@ -1,9 +1,7 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetServerSideProps, NextPage } from "next";
-import { UserRole, UserState } from "src/common/types";
-import { LoanState } from "src/common/types/loan.type";
-import { AuthUtil } from "src/common/utils";
-import { withAuthRoute } from "src/common/utils/route.util";
+import { UserRole, UserState, LoanState } from "src/common/types";
+import { AuthUtil, withAuthRoute } from "src/common/utils";
 import { appConfig } from "src/config/app.config";
 import { AccountRepository } from "src/modules/account/repositories/account.repository";
 import { AuthRepository } from "src/modules/auth/repositories/auth.repository";

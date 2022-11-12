@@ -4,7 +4,7 @@ import { LoanState } from "src/common/types/loan.type";
 import { Alert } from "src/common/ui/alert";
 import { Select } from "src/common/ui/select";
 import { Table } from "src/common/ui/table";
-import { currencyIdr } from "src/common/utils";
+import { currencyUsd } from "src/common/utils";
 import { FilterFindAllLoanDto } from "../dto/find-all-loan.dto";
 import { useAllLoan } from "../use-case/use-all-loan";
 import { Container } from "./partials/container";
@@ -111,7 +111,7 @@ export const Loan: React.FC<LoanProps> = () => {
                 <td className="text-center">{++i}</td>
                 <td>{loan.user.email}</td>
                 <td className="text-center">
-                  {currencyIdr.format(loan.amount ?? 0)}
+                  {currencyUsd.format(loan.amount ?? 0)}
                 </td>
                 <td className="text-center">{loan.state}</td>
                 <td className="text-center">

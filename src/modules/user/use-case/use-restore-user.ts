@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
+import { useExceptionsHandler } from "src/common/helpers";
 import { appConfig } from "src/config/app.config";
 import { UserRepository } from "../repositories/user.repository";
 

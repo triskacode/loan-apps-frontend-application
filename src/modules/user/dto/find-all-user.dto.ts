@@ -1,5 +1,4 @@
-import { UserRole, UserState } from "src/common/types";
-import { HttpResponse } from "src/common/types/http-response.type";
+import { UserRole, UserState, HttpResponse } from "src/common/types";
 import { User } from "src/domain/user";
 
 export interface FilterFindAllUserDto {

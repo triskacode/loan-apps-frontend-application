@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
-import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
+import { useExceptionsHandler } from "src/common/helpers";
 import { AuthUtil } from "src/common/utils";
 import { AuthRepository } from "../repositories/auth.repository";
 

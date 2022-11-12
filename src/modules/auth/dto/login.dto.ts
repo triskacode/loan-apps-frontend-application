@@ -1,4 +1,4 @@
-import { HttpResponse } from "src/common/types/http-response.type";
+import { HttpResponse } from "src/common/types";
 
 export interface LoginDto {
   email: string;

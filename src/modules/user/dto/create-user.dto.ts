@@ -1,5 +1,4 @@
-import { UserRole } from "src/common/types";
-import { HttpResponse } from "src/common/types/http-response.type";
+import { UserRole, HttpResponse } from "src/common/types";
 import { User } from "src/domain/user";
 
 export interface CreateUserDto {

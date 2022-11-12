@@ -1,8 +1,7 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetServerSideProps, NextPage } from "next";
 import { UserRole } from "src/common/types";
-import { AuthUtil } from "src/common/utils";
-import { withAuthRoute } from "src/common/utils/route.util";
+import { AuthUtil, withAuthRoute } from "src/common/utils";
 import { appConfig } from "src/config/app.config";
 import { AuthRepository } from "src/modules/auth/repositories/auth.repository";
 import { CreateUser } from "src/modules/user";

@@ -5,7 +5,7 @@ import {
 } from "@stripe/react-stripe-js";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";

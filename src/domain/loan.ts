@@ -1,4 +1,4 @@
-import { LoanState } from "src/common/types/loan.type";
+import { LoanState } from "src/common/types";
 
 interface PrivateUser {
   id: number;

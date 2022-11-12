@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { onlyWithoutAuthRoute } from "src/common/utils/route.util";
+import { onlyWithoutAuthRoute } from "src/common/utils";
 import { Login } from "src/modules/auth";
 
 const Page: NextPage = () => {

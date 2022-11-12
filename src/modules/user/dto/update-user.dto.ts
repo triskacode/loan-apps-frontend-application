@@ -1,4 +1,4 @@
-import { HttpResponse } from "src/common/types/http-response.type";
+import { HttpResponse } from "src/common/types";
 import { User } from "src/domain/user";
 import { CreateUserDto } from "./create-user.dto";
 

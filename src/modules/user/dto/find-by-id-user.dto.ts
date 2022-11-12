@@ -1,4 +1,4 @@
-import { HttpResponse } from "src/common/types/http-response.type";
+import { HttpResponse } from "src/common/types";
 import { User } from "src/domain/user";
 
 interface Data extends User {}

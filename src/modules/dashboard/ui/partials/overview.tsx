@@ -2,7 +2,7 @@ import React from "react";
 import { MdBarChart } from "react-icons/md";
 import { BiMoney } from "react-icons/bi";
 import { AccountStats } from "src/domain/account";
-import { currencyIdr } from "src/common/utils";
+import { currencyUsd } from "src/common/utils";
 
 interface OverviewProps {
   accountStats?: AccountStats;
@@ -35,7 +35,7 @@ export const Overview: React.FC<OverviewProps> = ({ accountStats }) => {
         <div className="col-span-2 flex flex-col items-center rounded-md border boorder-slate-400/50 px-5 py-8">
           <div className="">
             <h1 className="text-2xl font-semibold">
-              {currencyIdr.format(accountStats?.loan_balance ?? 0)}
+              {currencyUsd.format(accountStats?.loan_balance ?? 0)}
             </h1>
           </div>
           <div className="flex items-center gap-x-2 mt-2">

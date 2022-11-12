@@ -1,6 +1,6 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +8,7 @@ import { useAppContext } from "src/common/context";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
 import { DashboardLayout } from "src/common/ui/layout";
+import { onlyWithoutAuthRoute } from "src/common/utils";
 import { appConfig } from "src/config/app.config";
 import { Payment } from "src/modules/dashboard";
 
@@ -61,5 +62,13 @@ const Page: NextPage = () => {
     </Elements>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = onlyWithoutAuthRoute(
+  async (ctx) => {
+    return {
+      props: {},
+    };
+  }
+);
 
 export default Page;

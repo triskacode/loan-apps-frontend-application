@@ -1,5 +1,5 @@
-export const currencyIdr = new Intl.NumberFormat("id-ID", {
+export const currencyUsd = new Intl.NumberFormat("en-US", {
   style: "currency",
-  currency: "IDR",
+  currency: "USD",
   minimumFractionDigits: 0,
 });

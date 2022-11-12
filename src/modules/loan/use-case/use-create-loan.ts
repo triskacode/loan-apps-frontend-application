@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
+import { useExceptionsHandler } from "src/common/helpers";
 import { appConfig } from "src/config/app.config";
 import { CreateLoanDto } from "../dto/create-loan.dto";
 import { LoanRepository } from "../repositories/loan.repository";

@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useExceptionsHandler } from "src/common/helpers/exception-handler.helper";
+import { useMutation } from "@tanstack/react-query";
+import { useExceptionsHandler } from "src/common/helpers";
 import { CreatePaymentIntensDto } from "../dto/create-payment-intens.dto";
 import { AccountRepository } from "../repositories/account.repository";
 

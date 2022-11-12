@@ -153,7 +153,6 @@ export class UserRepository {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
         },
       }
     );

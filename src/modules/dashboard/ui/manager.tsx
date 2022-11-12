@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { HiOutlineEye } from "react-icons/hi";
-import { HttpErrorResponse, UserState } from "src/common/types";
-import { LoanState } from "src/common/types/loan.type";
+import { HttpErrorResponse, UserState, LoanState } from "src/common/types";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
 import { useStats } from "src/modules/account/use-case/use-stats";

@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { BiMoney } from "react-icons/bi";
 import { HiOutlineEye } from "react-icons/hi";
-import { HttpErrorResponse } from "src/common/types";
-import { LoanState } from "src/common/types/loan.type";
+import { HttpErrorResponse, LoanState } from "src/common/types";
 import { Alert } from "src/common/ui/alert";
 import { Select } from "src/common/ui/select";
 import { Table } from "src/common/ui/table";
-import { currencyIdr } from "src/common/utils";
+import { currencyUsd } from "src/common/utils";
 import { useMyAccount } from "src/modules/account/use-case/use-my-account";
 import { useMe } from "src/modules/auth/use-case/use-me";
 import { FilterFindAllLoanDto } from "src/modules/loan/dto/find-all-loan.dto";
@@ -97,7 +96,7 @@ export const User: React.FC<UserProps> = () => {
         <div className="group flex flex-col items-center rounded-md border boorder-slate-400/50 overflow-hidden transition-all duration-300 hover:shadow-lg">
           <div className="w-full flex-auto flex items-center justify-center text-white bg-gradient-to-r from-pink-500 to-violet-500 bg-[length:120%] bg-left group-hover:bg-right">
             <h1 className="text-3xl font-bold">
-              {currencyIdr.format(myAccount?.loan_balance ?? 0)}
+              {currencyUsd.format(myAccount?.loan_balance ?? 0)}
             </h1>
           </div>
           <div className="w-full flex flex-col items-center p-3">
@@ -163,7 +162,7 @@ export const User: React.FC<UserProps> = () => {
                   <td className="text-center">{++i}</td>
                   <td>{loan.user.email}</td>
                   <td className="text-center">
-                    {currencyIdr.format(loan.amount ?? 0)}
+                    {currencyUsd.format(loan.amount ?? 0)}
                   </td>
                   <td className="text-center">{loan.state}</td>
                   <td className="text-center">
