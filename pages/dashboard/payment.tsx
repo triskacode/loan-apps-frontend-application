@@ -1,15 +1,18 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useAppContext } from "src/common/context";
+import { UserRole } from "src/common/types";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
 import { DashboardLayout } from "src/common/ui/layout";
-import { onlyWithoutAuthRoute } from "src/common/utils";
+import { AuthUtil, withAuthRoute } from "src/common/utils";
 import { appConfig } from "src/config/app.config";
+import { AuthRepository } from "src/modules/auth/repositories/auth.repository";
 import { Payment } from "src/modules/dashboard";
 
 const stripePromise = loadStripe(appConfig.payment.stripeKey!);
@@ -63,11 +66,25 @@ const Page: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = onlyWithoutAuthRoute(
+export const getServerSideProps: GetServerSideProps = withAuthRoute(
   async (ctx) => {
-    return {
-      props: {},
-    };
+    try {
+      const queryClient = new QueryClient();
+      const accessToken = AuthUtil.getAccessToken(ctx);
+
+      const me = await queryClient.fetchQuery([appConfig.cache.AUTH_ME], () =>
+        AuthRepository.getMe(accessToken)
+      );
+      if (me.data.role !== UserRole.USER) return { notFound: true };
+
+      return {
+        props: {
+          dehydratedState: dehydrate(queryClient),
+        },
+      };
+    } catch (err) {
+      return { notFound: true };
+    }
   }
 );
 
