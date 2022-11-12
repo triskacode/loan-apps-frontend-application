@@ -38,6 +38,16 @@ export const getServerSideProps: GetServerSideProps = withAuthRoute(
         await queryClient.fetchQuery([appConfig.cache.LOAN_RESOURCE], () =>
           LoanRepository.findAll({ state: LoanState.PENDING }, accessToken)
         );
+      } else {
+        await queryClient.fetchQuery(
+          [appConfig.cache.ACCOUNT_RESOURCE, "my-account"],
+          () => AccountRepository.getMyAccount(accessToken)
+        );
+
+        await queryClient.fetchQuery(
+          [appConfig.cache.LOAN_RESOURCE, "my-loan"],
+          () => LoanRepository.findMyLoan({}, accessToken)
+        );
       }
 
       return {

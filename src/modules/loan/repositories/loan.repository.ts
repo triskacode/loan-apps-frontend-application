@@ -28,12 +28,16 @@ export class LoanRepository {
     return response;
   }
 
-  static async findMyLoan(token?: string): Promise<FindAllLoanResponseDto> {
+  static async findMyLoan(
+    filter?: FilterFindAllLoanDto,
+    token?: string
+  ): Promise<FindAllLoanResponseDto> {
     const accessToken = token ?? AuthUtil.getAccessToken();
 
     const response: FindAllLoanResponseDto = await HttpUtil.get(
       `${appConfig.service.loan}/loan/my-loan`,
       {
+        params: filter,
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -106,10 +110,10 @@ export class LoanRepository {
     const accessToken = token ?? AuthUtil.getAccessToken();
 
     const response: DeleteLoanResponseDto = await HttpUtil.delete(
-      `${appConfig.service.user}/user/${id}`,
+      `${appConfig.service.loan}/loan/${id}`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );

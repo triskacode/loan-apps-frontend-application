@@ -77,9 +77,9 @@ export const Loan: React.FC<LoanProps> = () => {
               onChange={handleChangeInputFilter}
             >
               <option value="">All state</option>
-              {Object.values(LoanState).map((role, i) => (
-                <option key={i} value={role}>
-                  {role}
+              {Object.values(LoanState).map((state, i) => (
+                <option key={i} value={state}>
+                  {state}
                 </option>
               ))}
             </Select>

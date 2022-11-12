@@ -10,6 +10,7 @@ import type { AppProps } from "next/app";
 import NextProgress from "nextjs-progressbar";
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import { AppProvider } from "src/common/context";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -21,7 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
           color="linear-gradient(to right, #ec4899, #8b5cf6)"
           options={{ showSpinner: false }}
         />
-        <Component {...pageProps} />
+        <AppProvider>
+          <Component {...pageProps} />
+        </AppProvider>
         <ToastContainer />
       </Hydrate>
     </QueryClientProvider>

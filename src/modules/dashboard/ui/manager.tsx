@@ -58,17 +58,12 @@ export const Manager: React.FC<ManagerProps> = () => {
   }, [loansRequestState.status]);
 
   useEffect(() => {
-    console.log(accountStatsRequestState);
     if (accountStatsRequestState.isError)
       handleError(accountStatsRequestState.error);
     else handleHideError();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountStatsRequestState.status]);
-
-  useEffect(() => {
-    console.log(accountStats);
-  }, [accountStats]);
 
   return (
     <Container>

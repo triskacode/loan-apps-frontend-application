@@ -17,6 +17,9 @@ export const useApproveLoan = (id: number) => {
       queryClient.invalidateQueries({
         queryKey: [appConfig.cache.ACCOUNT_RESOURCE, "stats"],
       });
+      queryClient.invalidateQueries({
+        queryKey: [appConfig.cache.ACCOUNT_RESOURCE, "my-account"],
+      });
     },
   });
 
