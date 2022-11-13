@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Alert } from "src/common/ui/alert";
 import { Button } from "src/common/ui/button";
+import { appConfig } from "src/config/app.config";
 import { usePaymentStatus } from "../use-case/use-payment-status";
 import { Container } from "./partials/container";
 
@@ -53,7 +54,7 @@ export const Payment: React.FC<PaymentProps> = () => {
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: "http://103.176.78.124:3000/dashboard/payment",
+          return_url: `${appConfig.url}/dashboard/payment`,
         },
       });
 

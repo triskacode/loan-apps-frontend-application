@@ -1,4 +1,5 @@
 export const appConfig = {
+  url: process.env.NEXT_PUBLIC_APP_URL,
   service: {
     auth: process.env.NEXT_PUBLIC_AUTH_SERVICE_ENDPOINT,
     user: process.env.NEXT_PUBLIC_USER_SERVICE_ENDPOINT,
